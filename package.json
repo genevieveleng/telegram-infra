@@ -1,0 +1,30 @@
+{
+  "name": "telegram-infra",
+  "version": "1.0.0",
+  "description": "infrastructure to host some telegram bots (for fun)",
+  "main": "app.js",
+  "scripts": {
+    "test": "node testing"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/genevieveleng/telegram-infra.git"
+  },
+  "keywords": [
+    "telegram"
+  ],
+  "author": "genevieve.leng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/genevieveleng/telegram-infra/issues"
+  },
+  "homepage": "https://github.com/genevieveleng/telegram-infra#readme",
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "promise": "^8.1.0",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2"
+  }
+}
