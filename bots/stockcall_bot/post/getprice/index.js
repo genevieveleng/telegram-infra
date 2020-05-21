@@ -6,7 +6,8 @@ const util = require(`${appRoot}/util`);
 module.exports = async (req)=>{
     winston.debug('/stockcall_bot/post/help/index.js');
     winston.debug('%o', req.body);
-    var bot_config = util.get_bot_token('stockcall_bot');
+    var bot_name = req.url.substring(5,1000)
+    var bot_config = util.get_bot_token(bot_name);
     var api_url = `https://api.telegram.org/bot${bot_config['id']}:${bot_config['hash']}/sendMessage`
     // get the share price before returning a message
     axios({

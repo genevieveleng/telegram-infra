@@ -6,7 +6,8 @@ const util = require(`${appRoot}/util`);
 module.exports = (req,res)=>{
     winston.debug('/stockcall_bot/post/index.js');
     winston.debug('%o', req.body);
-    var bot_config = util.get_bot_token('stockcall_bot');
+    var bot_name = req.url.substring(5,1000)
+    var bot_config = util.get_bot_token(bot_name);
     var api_url = `https://api.telegram.org/bot${bot_config['id']}:${bot_config['hash']}/sendMessage`
     // split the text into array, if any
     if (req.body.message.text != ''){
