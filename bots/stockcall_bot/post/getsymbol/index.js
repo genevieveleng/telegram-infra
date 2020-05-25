@@ -19,7 +19,7 @@ module.exports = async (req)=>{
         var inline_keyboard_json = []
         // loop through the list to generate inline keyboard
         response.data.quotes.forEach(function(e, i) {
-            inline_keyboard_json.push({"text": `${e.symbol} - ${e.shortname}`, "callback_data": `/getprice ${e.symbol}`});
+            inline_keyboard_json.push([{"text": `${e.symbol} - ${e.shortname}`, "callback_data": `/getprice ${e.symbol}`}]);
         });
 
         // ask user to choose 1 symbol
