@@ -25,7 +25,6 @@ module.exports = async (req)=>{
         // ask user to choose 1 symbol
         var return_json = {"chat_id":req.body.message.chat.id
             ,"text":"Please choose a symbol to get the price."
-            ,"parse_mode":"MarkdownV2"
             , "reply_markup":{"inline_keyboard":[inline_keyboard_json]}};
         winston.debug('%o',return_json);
         axios({
