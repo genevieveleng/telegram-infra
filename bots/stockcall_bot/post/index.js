@@ -9,16 +9,23 @@ module.exports = (req,res)=>{
     var bot_name = req.url.substring(5,1000)
     var bot_config = util.get_bot_token(bot_name);
     var api_url = `https://api.telegram.org/bot${bot_config['id']}:${bot_config['hash']}/sendMessage`
-    // split the text into array, if any
-    if (req.body.message.text != ''){
-        winston.debug('splitting of text');
-        req.body.message['text_array'] = req.body.message.text.split(' ');
-        winston.debug(req.body.message['text_array']);
+    
+    // if is callback, standardise the JSON for all scripts to process
+    winston.debug('standardizing the JSON + splitting of command');
+    if (typeof(req.body.callback_query) == 'object' ) {
+        winston.debug('it is a callback');
+        req.body['is_callback'] = true;
+        req.body['message'] = req.body.callback_query.message;
+        req.body['command_array'] = req.body.callback_query.data.split(' ');
+    } else {
+        winston.debug('it is a normal message');
+        req.body['is_callback'] = false;
+        req.body['command_array'] = req.body.message.text.split(' ');
     }
 
-    if (req.body.message['text_array'][0].slice(0, 1) == '/'){
+    if (req.body.command_array[0].slice(0, 1) == '/'){
         winston.debug('help will be provided');
-        const command = require(`${appRoot}/bots/stockcall_bot/post${req.body.message['text_array'][0]}`);
+        const command = require(`${appRoot}/bots/stockcall_bot/post${req.body.command_array[0]}`);
         command(req);
     } else {
         var return_json = {"chat_id":req.body.message.chat.id,"text":"i don't understand you..."};
@@ -33,5 +40,6 @@ module.exports = (req,res)=>{
             winston.debug(error);
         });
     }
+    
     res.send('ok');    
 }
