@@ -1,4 +1,5 @@
 const appRoot = require('app-root-path');
+const winston = require(`${appRoot}/winston`);
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
@@ -6,17 +7,17 @@ const fs = require('fs');
 // loop through bots to append API
 fs.readdir(`${appRoot}/bots`, function (err, folders) {
     if (err) {
-        console.error("Could not list the directory.", err);
+        winston.debug("Could not list the directory.", err);
     }
     folders.forEach(function (folder, index) {
         try {
-            console.log(`${appRoot}/bots/${folder}/post`);
+            winston.debug(`Current folder: ${appRoot}/bots/${folder}/post`);
             router.post('/api/'+folder, require(`${appRoot}/bots/${folder}/post/index`));
-            console.log('added /api/'+folder);
+            winston.debug('added /api/'+folder);
         }
         catch (e) {
-            console.log('unable to add /api/'+folder);
-            console.log(e);
+            winston.debug('unable to add /api/'+folder);
+            winston.debug(e);
         }
     });
 });

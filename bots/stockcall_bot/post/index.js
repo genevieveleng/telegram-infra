@@ -35,7 +35,7 @@ module.exports = (req,res)=>{
             const command = require(`${appRoot}/bots/stockcall_bot/post${req.body.command_array[0]}`);
             command(req);
         } else {
-            throw new TypeError("Command cannot be understood")
+            throw new TypeError("Command cannot be understood");
         }
     } catch {
         var return_json = {"chat_id":req.body.message.chat.id,"text":"i don't understand you..."};
