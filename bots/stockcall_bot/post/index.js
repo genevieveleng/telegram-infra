@@ -17,17 +17,27 @@ module.exports = (req,res)=>{
         req.body['is_callback'] = true;
         req.body['message'] = req.body.callback_query.message;
         req.body['command_array'] = req.body.callback_query.data.split(' ');
+    } else if (typeof(req.body.edited_message) == 'object' ) {
+        winston.debug('it is a edited message');
+        req.body['is_callback'] = false;
+        req.body['message'] = req.body.edited_message;
+        req.body['command_array'] = req.body.edited_message.text.split(' ');
     } else {
         winston.debug('it is a normal message');
         req.body['is_callback'] = false;
         req.body['command_array'] = req.body.message.text.split(' ');
     }
 
-    if (req.body.command_array[0].slice(0, 1) == '/'){
-        winston.debug('help will be provided');
-        const command = require(`${appRoot}/bots/stockcall_bot/post${req.body.command_array[0]}`);
-        command(req);
-    } else {
+    // to ensure all types of replies has an answer (quick hack, will be changed soon)
+    try {
+        if (req.body.command_array[0].slice(0, 1) == '/'){
+            winston.debug('help will be provided');
+            const command = require(`${appRoot}/bots/stockcall_bot/post${req.body.command_array[0]}`);
+            command(req);
+        } else {
+            throw new TypeError("Command cannot be understood")
+        }
+    } catch {
         var return_json = {"chat_id":req.body.message.chat.id,"text":"i don't understand you..."};
         axios({
             method: 'post',
