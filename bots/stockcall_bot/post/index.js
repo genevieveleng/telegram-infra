@@ -37,7 +37,7 @@ module.exports = (req,res)=>{
         } else {
             throw new TypeError("Command cannot be understood");
         }
-    } catch {
+    } catch (e) {
         var return_json = {"chat_id":req.body.message.chat.id,"text":"i don't understand you..."};
         axios({
             method: 'post',
